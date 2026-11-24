@@ -455,7 +455,7 @@ private theorem remove (C : Circuit) (hfan : FanInTwo C)
 end PEqualNP.Outside.L_meta_5367_aux
 
 -- Certificate from the checked L-meta-2012 proof. Cofactor elimination adapted from L-meta-2038.
-namespace PEqualNP.Outside.L_meta_5367_cert
+namespace PEqualNP.Outside.L_meta_5367.Cert
 namespace Base1007
 abbrev B:=BitVec 252
 abbrev Sig:=B × B
@@ -7464,7 +7464,7 @@ theorem finalBound: have x1: (Fin (9: ℕ) → Bool) → Bool:= fun (x1: Fin (9:
   obtain ⟨k,hk,t,ht,hr⟩:= circuit_trestricted C hs hf he'
   exact rootImpossible t ht k hk raw.toFinset rootTag rootWires_rep hr
 end Main1672
-end PEqualNP.Outside.L_meta_5367_cert
+end PEqualNP.Outside.L_meta_5367.Cert
 theorem PEqualNP.Outside.L_meta_5367 : ∀ (x1 : PEqualNP.CircuitLowerBounds.Circuit),   PEqualNP.MetaComplexity.FanInTwo x1 →     (∀ (x3 : Fin (10 : ℕ) → Bool), x1.eval (List.ofFn x3 ++ [!x3 (0 : Fin (10 : ℕ))]) = (fun (x4 : Fin (10 : ℕ) → Bool) => x4 (0 : Fin (10 : ℕ)) && x4 (1 : Fin (10 : ℕ)) || x4 (1 : Fin (10 : ℕ)) && x4 (2 : Fin (10 : ℕ)) || x4 (2 : Fin (10 : ℕ)) && x4 (3 : Fin (10 : ℕ)) || x4 (3 : Fin (10 : ℕ)) && x4 (4 : Fin (10 : ℕ)) || x4 (4 : Fin (10 : ℕ)) && x4 (0 : Fin (10 : ℕ)) || x4 (0 : Fin (10 : ℕ)) && x4 (5 : Fin (10 : ℕ)) || x4 (1 : Fin (10 : ℕ)) && x4 (6 : Fin (10 : ℕ)) || x4 (2 : Fin (10 : ℕ)) && x4 (7 : Fin (10 : ℕ)) || x4 (3 : Fin (10 : ℕ)) && x4 (8 : Fin (10 : ℕ)) || x4 (4 : Fin (10 : ℕ)) && x4 (9 : Fin (10 : ℕ)) || x4 (5 : Fin (10 : ℕ)) && x4 (7 : Fin (10 : ℕ)) || x4 (7 : Fin (10 : ℕ)) && x4 (9 : Fin (10 : ℕ)) || x4 (9 : Fin (10 : ℕ)) && x4 (6 : Fin (10 : ℕ)) || x4 (6 : Fin (10 : ℕ)) && x4 (8 : Fin (10 : ℕ)) || x4 (8 : Fin (10 : ℕ)) && x4 (5 : Fin (10 : ℕ))) x3) →       (15 : ℕ) +           List.countP             (fun (x4 : PEqualNP.CircuitLowerBounds.Gate) =>               have x5 : List ℕ := PEqualNP.CircuitLowerBounds.GateOp.rec x4.inputs x4.inputs (List.take (1 : ℕ) x4.inputs) (fun (x5 : ℕ) => x4.inputs) x4.inputs x4.op;               x5.contains (0 : ℕ) || x5.contains (10 : ℕ))             x1.gates ≤         x1.size := by
   intro C fan he
   let y (x : Fin 9 → Bool) : Fin 10 → Bool := ![false, x 4, x 0, x 1, x 6, x 7, x 3, x 5, x 2, x 8]
@@ -7477,19 +7477,19 @@ theorem PEqualNP.Outside.L_meta_5367 : ∀ (x1 : PEqualNP.CircuitLowerBounds.Cir
   obtain ⟨D,hd,hs,hD⟩ := PEqualNP.Outside.L_meta_5367_aux.remove C fan hfalse
   have model (x : Fin 9 → Bool) : D.eval (List.ofFn x) =
       ([1,12,23,34,40,5,16,27,38,57,68,85] : List ℕ).any
-      (fun i => x (Fin.ofNat 9 (i/10)) && x (Fin.ofNat 9 (i%10))) := by
+      (fun i => x (Fin.ofNat 9 (i/10)) && x (Fin.ofNat 9 (i % 10))) := by
     rw [hD, ← hin, he]
     have hh : ∀ x : Fin 9 → Bool,
       (let z := y x; z 0 && z 1 || z 1 && z 2 || z 2 && z 3 || z 3 && z 4 ||
       z 4 && z 0 || z 0 && z 5 || z 1 && z 6 || z 2 && z 7 || z 3 && z 8 ||
       z 4 && z 9 || z 5 && z 7 || z 7 && z 9 || z 9 && z 6 || z 6 && z 8 || z 8 && z 5) =
       ([1,12,23,34,40,5,16,27,38,57,68,85] : List ℕ).any
-      (fun i => x (Fin.ofNat 9 (i/10)) && x (Fin.ofNat 9 (i%10))) := by
+      (fun i => x (Fin.ofNat 9 (i/10)) && x (Fin.ofNat 9 (i % 10))) := by
       decide +kernel
     exact hh x
   have lower : 15 ≤ D.size := by
     by_contra! h
-    exact PEqualNP.Outside.L_meta_5367_cert.Main1672.finalBound ⟨D,hd,by omega,model⟩
+    exact PEqualNP.Outside.L_meta_5367.Cert.Main1672.finalBound ⟨D,hd,by omega,model⟩
   have cnt : C.gates.countP PEqualNP.Outside.L_meta_5367_aux.effectiveTouches =
       C.gates.countP (fun g => (GateOp.rec (motive := fun _ => List ℕ) g.inputs g.inputs (g.inputs.take 1) (fun _ => g.inputs) g.inputs g.op).contains 0 ||
         (GateOp.rec (motive := fun _ => List ℕ) g.inputs g.inputs (g.inputs.take 1) (fun _ => g.inputs) g.inputs g.op).contains 10) := by
